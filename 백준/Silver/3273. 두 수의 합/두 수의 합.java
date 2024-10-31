@@ -12,22 +12,28 @@ public class Main {
         
         int n = Integer.parseInt(br.readLine());
         int[] arr = new int[n];
-
         StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
+        int x = Integer.parseInt(br.readLine());
 
         Arrays.sort(arr);
 
         int ans = 0;
-        int x = Integer.parseInt(br.readLine());
-        for (int i = 0; i < n && arr[i] < x; i++) {
-            for (int j = i+1; j < n && arr[j] < x; j++) {
-                if (arr[i] + arr[j] == x) {
-                    ans++;
-                    break;
-                }
+        int l = 0;
+        int r = arr.length - 1;
+        while (l < r) {
+            int sum = arr[l] + arr[r];
+            int delta = x - sum;
+            if (delta > 0) {
+                l++;
+            } else if (delta < 0) {
+                r--;
+            } else {
+                ans++;
+                l++;
+                r--;
             }
         }
 
