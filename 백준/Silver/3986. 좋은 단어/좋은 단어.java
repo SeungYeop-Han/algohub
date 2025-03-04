@@ -7,13 +7,14 @@ public class Main {
     public static void main(String... args) throws Exception {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int numGoodWords = 0;
 
         int numWords = Integer.parseInt(br.readLine());
+        int numGoodWords = 0;
+        Stack<Character> stack = new Stack<>();
+
         while(numWords-- > 0) {
 
             String word = br.readLine();
-            Stack<Character> stack = new Stack<>();
             
             for (int i = 0; i < word.length(); i++) {
 
@@ -34,6 +35,8 @@ public class Main {
             if (stack.isEmpty()) {
                 numGoodWords++;
             }
+
+            stack.clear();
         }
 
         System.out.println(numGoodWords);
