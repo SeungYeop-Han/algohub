@@ -1,27 +1,8 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.EmptyStackException;
 
 public class Main {
 
-    // 야매 스택
-    static int pos = -1;
-    static int[] stack = new int[50000];
-
-    static void push(int e) {
-        stack[++pos] = e;
-    }
-
-    static int pop() throws EmptyStackException {
-        if (pos == -1) {
-            throw new EmptyStackException();
-        }
-
-        return stack[pos--];
-    }
-
-    //-------------------
-    
     public static void main(String... args) throws Exception {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -29,7 +10,10 @@ public class Main {
         // 문자열은 항상 유효한 괄호쌍임
         String seq = br.readLine();
 
-        // 정답
+        // 가상의 스택에 삽입된 쇠막대기의 수
+        int stackSize = 0;
+
+        // 정답(절편의 수)
         int ans = 0;
 
         // 괄호 문자열 순회
@@ -37,25 +21,28 @@ public class Main {
 
             char cur = seq.charAt(idxSeq);
 
+            // 가상의 스택에 쇠막대기가 push 되었음
             if (cur == '(') {
-                push(1);
-                continue;
+                stackSize++;
             }
 
-            if (cur == ')') {
+            // seq는 항상 올바른 괄호쌍이므로, ')' 문자가 제시된 경우 반드시 이전 문자가 존재함이 보장됨
+            else {
 
-                // 레이저인 경우 stack 이 모든 요소 +1
-                // 항상 올바른 괄호쌍이므로, ')' 문자가 제시된 경우 반드시 이전 문자가 존재함이 보장됨
+                // 직전에 push 한 쇠막대기가 레이저 였으므로
                 if (seq.charAt(idxSeq-1) == '(') {
-                    // 레이저 제거
-                    pop();
+                    // 가상의 스택으로부터 pop 해야 함
+                    stackSize--;
 
-                    // stack 의 모든 요소 +1
-                    for (int idxStack = 0; idxStack <= pos; idxStack++) {
-                        stack[idxStack]++;
-                    }
-                } else { // 레이저가 아닌 경우 popped 를 정답에 누적
-                    ans += pop();
+                    // 레이저에 의해 절단된, 왼쪽 절편의 수(==stackSize) 를 정답에 누적
+                    ans += stackSize;
+                }
+                
+                // 가장 짧았던 쇠막대기의 끝 지점인 경우
+                // 가상의 스택으로부터 쇠막대기를 제거하면서 정답에 누적
+                else {
+                    stackSize--;
+                    ans++;
                 }
             }
         }
