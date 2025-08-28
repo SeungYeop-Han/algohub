@@ -1,14 +1,21 @@
-import java.util.Arrays;
+import java.util.HashMap;
 
 class Solution {
     
     public boolean solution(String[] phoneBook) {
         
-        Arrays.sort(phoneBook);
+        HashMap<String, Boolean> hm = new HashMap<>();
         
-        for (int i = 1; i < phoneBook.length; i++) {
-            if (phoneBook[i].startsWith(phoneBook[i-1])) {
-                return false;
+        for (String phoneNum : phoneBook) {
+            hm.put(phoneNum, true);
+        }
+        
+        for (String phoneNum : phoneBook) {
+            // "phoneNum" 에 대해 "p", "ph", ... "phoneNu"
+            for (int i = 1; i < phoneNum.length(); i++) {
+                if(hm.containsKey(phoneNum.substring(0, i))) {
+                    return false;
+                }
             }
         }
         
