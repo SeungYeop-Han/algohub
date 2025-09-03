@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 class Solution {
     
-    public int[] solution(int[] arr) {
+    public ArrayList<Integer> solution(int[] arr) {
         
         ArrayList<Integer> ret = new ArrayList<>();
         
@@ -14,8 +14,6 @@ class Solution {
             }
         }
         
-        return ret.stream()
-                    .mapToInt(Integer::intValue)
-                    .toArray();
+        return ret;
     }
 }
